@@ -1,0 +1,33 @@
+name: Env vars
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  consecutive-substitutions:
+    name: Consecutive substitutions
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Step env with substitution # does not work
+        env:
+          SAFE_REF_NAME: ${GITHUB_REF_NAME/\//-}
+        run: echo "${SAFE_REF_NAME/v/}"
+
+      - name: Intermediate shell var
+        run: |
+          SAFE_REF_NAME=${GITHUB_REF_NAME/\//-}
+          echo "${SAFE_REF_NAME/v/}"
+
+      - name: Export SAFE_REF_NAME to other steps
+        run: echo "SAFE_REF_NAME=${GITHUB_REF_NAME/\//-}" >> $GITHUB_ENV
+
+      - name: Retrieve stored SAFE_REF_NAME (as normal env var)
+        run: echo "${SAFE_REF_NAME/v/}"
+
+      - name: Step env from global env context # not needed if you can retrieve as normal var
+        env:
+          SAFE_REF_NAME: ${{ env.SAFE_REF_NAME }}
+        run: echo "${SAFE_REF_NAME/v/}"
+
+      - name: Direct substitution of SAFE_REF_NAME retrieved from env context # can result in bad substitution
+        run: echo "${${{ env.SAFE_REF_NAME }}/v/}"
