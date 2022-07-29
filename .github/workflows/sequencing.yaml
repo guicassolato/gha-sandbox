@@ -1,0 +1,19 @@
+name: Consecutive workflows
+
+on:
+  workflow_run:
+    workflows:
+    - Env vars
+    types:
+    - completed
+
+jobs:
+  report-conclusion:
+    name: Consecutive workflows
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Print previous workflow conclusion
+        run: echo "${{ github.event.workflow_run.conclusion }}"
