@@ -16,4 +16,5 @@ jobs:
           echo "VERSION=${{ github.sha }}" >> $GITHUB_ENV
           fi
       - name: Print version
-        run: echo "Version: ${VERSION}"
+        run: |
+          echo "Version: ${VERSION}"
