@@ -4,6 +4,15 @@ on:
   workflow_dispatch: {}
 
 jobs:
+  ref-from-gh:
+    name: Git ref
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Print Git ref
+        run: |
+          echo "github.ref: ${{ github.ref }}"
+          echo "GITHUB_REF: ${{ GITHUB_REF }}"
+          echo "GITHUB_REF_NAME: ${{ GITHUB_REF_NAME }}"
   version-from-git-ref:
     name: Set version from Git ref
     runs-on: ubuntu-20.04
