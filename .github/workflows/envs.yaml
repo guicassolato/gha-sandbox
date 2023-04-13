@@ -31,3 +31,8 @@ jobs:
 
       - name: Direct substitution of SAFE_REF_NAME retrieved from env context # can result in bad substitution
         run: echo "${${{ env.SAFE_REF_NAME }}/v/}"
+        
+      - name: Interpolation
+        run: |
+          my_var=foo
+          echo "foo: $my_var"
